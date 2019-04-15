@@ -1,0 +1,24 @@
+"""from fastai.vision import *
+from fastai.metrics import error_rate
+from pathlib import Path
+from glob2 import glob
+from sklearn.metrics import confusion_matrix"""
+
+import pandas as pd
+import numpy as np
+import os
+import zipfile as zf
+import shutil
+import re
+# import seaborn as sns
+
+
+# Initial Code to Extract and Sort Files from dataset
+files = zf.ZipFile("dataset-resized.zip", "r")
+files.extractall()
+files.close()
+
+os.listdir(os.path.join(os.getcwd(), "dataset-resized"))
+
+dataset_folder = Path(os.getcwd())/"data"
+
