@@ -154,7 +154,7 @@ def main():
 
     for r in range(len(cm)):
         for c in range(len(cm)):
-            if (r == c):
+            if r == c:
                 correct += cm[r, c]
 
     accuracy = correct / sum(sum(cm))
