@@ -1,3 +1,9 @@
+# This program utilizes Transfer Machine Learning techniques
+# using the TensorFlow library to train on a
+# image dataset of recyclable items
+
+# This code has been borrowed from the TensorFlow resources:
+# https://bit.ly/2I9sGUp
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -15,6 +21,7 @@ from IPython.display import clear_output, Image, display, HTML
 
 import tensorflow as tf
 import tensorflow_hub as hub
+from tensorflow import keras
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -42,7 +49,7 @@ def make_train_and_test_sets():
     train_examples, test_examples = [], []
     shuffler = random.Random(RANDOM_SEED)
     is_root = True
-    for (dirname, subdirs, filenames) in tf.gfile.Walk(FLOWERS_DIR):
+    for (dirname, subdirs, filenames) in tf.gfile.Walk(DATASET_DIR):
       # The root directory gives us the classes
       if is_root:
         subdirs = sorted(subdirs)
@@ -155,9 +162,13 @@ LEARNING_RATE = 0.01
 
 tf.reset_default_graph()
 
-# Load a pre-trained TF-Hub module for extracting features from images. We've
+# Load a pre-trained learning model from TF-Hub library for extracting features from images. We've
 # chosen this particular module for speed, but many other choices are available.
-image_module = hub.Module('https://tfhub.dev/google/imagenet/mobilenet_v2_035_128/feature_vector/2')
+
+# Retrieves pre-trained model from TF to use as feature extractor
+# Currently Using: Google's MobileNet v2 with depth multiplier 0.35
+# Trained on ImageNet Dataset (ILSVRC-2012-CLS)
+image_module = hub.Module("https://tfhub.dev/google/imagenet/resnet_v2_50/feature_vector/3")
 
 # Preprocessing images into tensors with size expected by the image module.
 encoded_images = tf.placeholder(tf.string, shape=[None])
@@ -228,16 +239,19 @@ TRAIN_BATCH_SIZE = 10
 # How often to evaluate the model performance.
 EVAL_EVERY = 10
 
+
 def get_batch(batch_size=None, test=False):
     """Get a random batch of examples."""
     examples = TEST_EXAMPLES if test else TRAIN_EXAMPLES
     batch_examples = random.sample(examples, batch_size) if batch_size else examples
     return batch_examples
 
+
 def get_images_and_labels(batch_examples):
     images = [get_encoded_image(e) for e in batch_examples]
     one_hot_labels = [get_label_one_hot(e) for e in batch_examples]
     return images, one_hot_labels
+
 
 def get_label_one_hot(example):
     """Get the one hot encoding vector for the example."""
@@ -248,6 +262,7 @@ def get_label_one_hot(example):
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
+    print("Initiating...")
     for i in range(NUM_TRAIN_STEPS):
         # Get a random batch of training examples.
         train_batch = get_batch(batch_size=TRAIN_BATCH_SIZE)
