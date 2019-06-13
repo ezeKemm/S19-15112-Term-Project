@@ -261,25 +261,34 @@ def get_label_one_hot(example):
 
 
 with tf.Session() as sess:
+
     sess.run(tf.global_variables_initializer())
     print("Initiating...")
+
     for i in range(NUM_TRAIN_STEPS):
+
         # Get a random batch of training examples.
         train_batch = get_batch(batch_size=TRAIN_BATCH_SIZE)
         batch_images, batch_labels = get_images_and_labels(train_batch)
+
         # Run the train_op to train the model.
         train_loss, _, train_accuracy = sess.run(
             [cross_entropy_mean, train_op, accuracy],
             feed_dict={encoded_images: batch_images, labels: batch_labels})
+
         is_final_step = (i == (NUM_TRAIN_STEPS - 1))
+
         if i % EVAL_EVERY == 0 or is_final_step:
+
             # Get a batch of test examples.
             test_batch = get_batch(batch_size=None, test=True)
             batch_images, batch_labels = get_images_and_labels(test_batch)
+
             # Evaluate how well our model performs on the test set.
             test_loss, test_accuracy, test_prediction, correct_predicate = sess.run(
               [cross_entropy_mean, accuracy, prediction, correct_prediction],
               feed_dict={encoded_images: batch_images, labels: batch_labels})
+
             print('Test accuracy at step %s: %.2f%%' % (i, (test_accuracy * 100)))
 
 
@@ -305,7 +314,12 @@ incorrect = [
     for example, prediction, is_correct in zip(test_batch, test_prediction, correct_predicate)
     if not is_correct
 ]
-display_images(
+"""display_images(
   [(get_image(example), "prediction: {0}\nlabel:{1}".format(incorrect_prediction, get_class(example)))
    for (example, incorrect_prediction) in incorrect[:20]])
+"""
+
+EXPORT_DIR = "SortingTraining"
+saver = tf.train.Saver()
+saver.save(sess, "recyclables_model")
 
