@@ -7,6 +7,9 @@ import collections
 import math
 import sys
 
+# Grabs files for loading model
+from SortingTraining import recyclable_model
+
 
 def loadTrainedModel():
     MODEL_PB = ""

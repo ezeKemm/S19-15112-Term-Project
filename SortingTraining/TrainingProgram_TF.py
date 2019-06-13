@@ -14,6 +14,7 @@ import math
 import os
 import random
 import zipfile as zf
+from tensorflow.python.tools import freeze_graph
 
 from six.moves import urllib
 
@@ -28,7 +29,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import sklearn.metrics as sk_metrics
 import time
-
 
 DATASET_DIR = './dataset-resized'
 TRAIN_FRACTION = 0.8
@@ -50,24 +50,26 @@ def make_train_and_test_sets():
     shuffler = random.Random(RANDOM_SEED)
     is_root = True
     for (dirname, subdirs, filenames) in tf.gfile.Walk(DATASET_DIR):
-      # The root directory gives us the classes
-      if is_root:
-        subdirs = sorted(subdirs)
-        classes = collections.OrderedDict(enumerate(subdirs))
-        label_to_class = dict([(x, i) for i, x in enumerate(subdirs)])
-        is_root = False
-      # The sub directories give us the image files for training.
-      else:
-        filenames.sort()
-        shuffler.shuffle(filenames)
-        full_filenames = [os.path.join(dirname, f) for f in filenames]
-        label = dirname.split('/')[-1]
-        label_class = label_to_class[label]
-        # An example is the image file and it's label class.
-        examples = list(zip(full_filenames, [label_class] * len(filenames)))
-        num_train = int(len(filenames) * TRAIN_FRACTION)
-        train_examples.extend(examples[:num_train])
-        test_examples.extend(examples[num_train:])
+
+        # The root directory gives us the classes
+        if is_root:
+            subdirs = sorted(subdirs)
+            classes = collections.OrderedDict(enumerate(subdirs))
+            label_to_class = dict([(x, i) for i, x in enumerate(subdirs)])
+            is_root = False
+
+        # The sub directories give us the image files for training.
+        else:
+            filenames.sort()
+            shuffler.shuffle(filenames)
+            full_filenames = [os.path.join(dirname, f) for f in filenames]
+            label = dirname.split('/')[-1]
+            label_class = label_to_class[label]
+            # An example is the image file and it's label class.
+            examples = list(zip(full_filenames, [label_class] * len(filenames)))
+            num_train = int(len(filenames) * TRAIN_FRACTION)
+            train_examples.extend(examples[:num_train])
+            test_examples.extend(examples[num_train:])
 
     shuffler.shuffle(train_examples)
     shuffler.shuffle(test_examples)
@@ -155,8 +157,8 @@ def display_images(images_and_classes, cols=5):
 
 
 NUM_IMAGES = 15
-display_images([(get_image(example), get_class(example))
-               for example in TRAIN_EXAMPLES[:NUM_IMAGES]])
+"""display_images([(get_image(example), get_class(example))
+               for example in TRAIN_EXAMPLES[:NUM_IMAGES]])"""
 
 LEARNING_RATE = 0.01
 
@@ -260,6 +262,10 @@ def get_label_one_hot(example):
     return one_hot_vector
 
 
+MODEL_EXPORT = "recyclables_model"
+OUTPUT_GRAPH
+
+
 with tf.Session() as sess:
 
     sess.run(tf.global_variables_initializer())
@@ -292,35 +298,9 @@ with tf.Session() as sess:
             print('Test accuracy at step %s: %.2f%%' % (i, (test_accuracy * 100)))
 
     saver = tf.train.Saver()
-    saver.save(sess, "recyclables_model")
+    chkpt = saver.save(sess, MODEL_EXPORT)
 
-def show_confusion_matrix(test_labels, predictions):
-    """Compute confusion matrix and normalize."""
-    confusion = sk_metrics.confusion_matrix(
-      np.argmax(test_labels, axis=1), predictions)
-    confusion_normalized = confusion.astype("float") / confusion.sum(axis=1)
-    axis_labels = list(CLASSES.values())
-    ax = sns.heatmap(
-        confusion_normalized, xticklabels=axis_labels, yticklabels=axis_labels,
-        cmap='Blues', annot=True, fmt='.2f', square=True)
-    plt.title("Confusion matrix")
-    plt.ylabel("True label")
-    plt.xlabel("Predicted label")
-
-
-show_confusion_matrix(batch_labels, test_prediction)
-
-
-incorrect = [
-    (example, CLASSES[prediction])
-    for example, prediction, is_correct in zip(test_batch, test_prediction, correct_predicate)
-    if not is_correct
-]
-"""display_images(
-  [(get_image(example), "prediction: {0}\nlabel:{1}".format(incorrect_prediction, get_class(example)))
-   for (example, incorrect_prediction) in incorrect[:20]])
-"""
-
-EXPORT_DIR = "SortingTraining"
-
-
+input_graph_path = MODEL_EXPORT + ".meta"
+input_binary = False
+checkpoint_path = chkpt
+freeze_graph.freeze_graph()
