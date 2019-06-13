@@ -233,7 +233,7 @@ show_graph(tf.get_default_graph())
 
 
 # How long will we train the network (number of batches).
-NUM_TRAIN_STEPS = 100
+NUM_TRAIN_STEPS = 50
 # How many training examples we use in each step.
 TRAIN_BATCH_SIZE = 10
 # How often to evaluate the model performance.
@@ -291,6 +291,8 @@ with tf.Session() as sess:
 
             print('Test accuracy at step %s: %.2f%%' % (i, (test_accuracy * 100)))
 
+    saver = tf.train.Saver()
+    saver.save(sess, "recyclables_model")
 
 def show_confusion_matrix(test_labels, predictions):
     """Compute confusion matrix and normalize."""
@@ -320,6 +322,5 @@ incorrect = [
 """
 
 EXPORT_DIR = "SortingTraining"
-saver = tf.train.Saver()
-saver.save(sess, "recyclables_model")
+
 
