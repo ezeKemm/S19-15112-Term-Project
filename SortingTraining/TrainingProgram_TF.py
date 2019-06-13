@@ -4,6 +4,8 @@
 
 # This code has been borrowed from the TensorFlow resources:
 # https://bit.ly/2I9sGUp
+
+# Modifications included
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -156,16 +158,30 @@ def display_images(images_and_classes, cols=5):
         plt.title(flower_class)
 
 
-NUM_IMAGES = 15
-"""display_images([(get_image(example), get_class(example))
-               for example in TRAIN_EXAMPLES[:NUM_IMAGES]])"""
+def get_batch(batch_size=None, test=False):
+    """Get a random batch of examples."""
+    examples = TEST_EXAMPLES if test else TRAIN_EXAMPLES
+    batch_examples = random.sample(examples, batch_size) if batch_size else examples
+    return batch_examples
+
+
+def get_images_and_labels(batch_examples):
+    images = [get_encoded_image(e) for e in batch_examples]
+    one_hot_labels = [get_label_one_hot(e) for e in batch_examples]
+    return images, one_hot_labels
+
+
+def get_label_one_hot(example):
+    """Get the one hot encoding vector for the example."""
+    one_hot_vector = np.zeros(NUM_CLASSES)
+    np.put(one_hot_vector, get_label(example), 1)
+    return one_hot_vector
+
 
 LEARNING_RATE = 0.01
 
 tf.reset_default_graph()
 
-# Load a pre-trained learning model from TF-Hub library for extracting features from images. We've
-# chosen this particular module for speed, but many other choices are available.
 
 # Retrieves pre-trained model from TF to use as feature extractor
 # Currently Using: Google's MobileNet v2 with depth multiplier 0.35
@@ -205,7 +221,7 @@ def create_model(features):
 # how much the input resembles this class. This vector of numbers is often
 # called the "logits".
 logits = create_model(features)
-labels = tf.placeholder(tf.float32, [None, NUM_CLASSES])
+labels = tf.placeholder(tf.float32, [None, NUM_CLASSES], name="INPUT")
 
 # Mathematically, a good way to measure how much the predicted probabilities
 # diverge from the truth is the "cross-entropy" between the two probability
@@ -221,7 +237,7 @@ train_op = optimizer.minimize(loss=cross_entropy_mean)
 # The "softmax" function transforms the logits vector into a vector of
 # probabilities: non-negative numbers that sum up to one, and the i-th number
 # says how likely the input comes from class i.
-probabilities = tf.nn.softmax(logits)
+probabilities = tf.nn.softmax(logits, name="OUTPUT")
 
 # We choose the highest one as the predicted class.
 prediction = tf.argmax(probabilities, 1)
@@ -242,33 +258,15 @@ TRAIN_BATCH_SIZE = 10
 EVAL_EVERY = 10
 
 
-def get_batch(batch_size=None, test=False):
-    """Get a random batch of examples."""
-    examples = TEST_EXAMPLES if test else TRAIN_EXAMPLES
-    batch_examples = random.sample(examples, batch_size) if batch_size else examples
-    return batch_examples
-
-
-def get_images_and_labels(batch_examples):
-    images = [get_encoded_image(e) for e in batch_examples]
-    one_hot_labels = [get_label_one_hot(e) for e in batch_examples]
-    return images, one_hot_labels
-
-
-def get_label_one_hot(example):
-    """Get the one hot encoding vector for the example."""
-    one_hot_vector = np.zeros(NUM_CLASSES)
-    np.put(one_hot_vector, get_label(example), 1)
-    return one_hot_vector
-
-
 MODEL_EXPORT = "recyclables_model"
-OUTPUT_GRAPH
-
+GRAPH_FN = "model_net.pb"
+EXPORT_SITE = "./export"
 
 with tf.Session() as sess:
 
     sess.run(tf.global_variables_initializer())
+    saver = tf.train.Saver()
+    tf.train.write_graph(sess.graph_def, EXPORT_SITE, GRAPH_FN, False)
     print("Initiating...")
 
     for i in range(NUM_TRAIN_STEPS):
@@ -297,7 +295,6 @@ with tf.Session() as sess:
 
             print('Test accuracy at step %s: %.2f%%' % (i, (test_accuracy * 100)))
 
-    saver = tf.train.Saver()
     chkpt = saver.save(sess, MODEL_EXPORT)
 
 input_graph_path = MODEL_EXPORT + ".meta"
