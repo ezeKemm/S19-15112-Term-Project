@@ -186,7 +186,7 @@ tf.reset_default_graph()
 # Retrieves pre-trained model from TF to use as feature extractor
 # Currently Using: Google's MobileNet v2 with depth multiplier 0.35
 # Trained on ImageNet Dataset (ILSVRC-2012-CLS)
-image_module = hub.Module("https://tfhub.dev/google/imagenet/resnet_v2_50/feature_vector/3")
+image_module = hub.Module('https://tfhub.dev/google/imagenet/mobilenet_v2_035_128/feature_vector/2')
 
 # Preprocessing images into tensors with size expected by the image module.
 encoded_images = tf.placeholder(tf.string, shape=[None])
@@ -213,7 +213,7 @@ def create_model(features):
     # are equivalent to a single linear layer. You can create a nonlinear layer
     # like this:
     # layer = tf.layers.dense(inputs=..., units=..., activation=tf.nn.relu)
-    layer = tf.layers.dense(inputs=features, units=NUM_CLASSES, activation=None)
+    layer = tf.layers.dense(inputs=features, units=NUM_CLASSES, activation=None, name="Out")
     return layer
 
 
@@ -258,15 +258,13 @@ TRAIN_BATCH_SIZE = 10
 EVAL_EVERY = 10
 
 
-MODEL_EXPORT = "recyclables_model"
-GRAPH_FN = "model_net.pb"
+MODEL_NAME = "recyclables"
 EXPORT_SITE = "./export"
 
 with tf.Session() as sess:
 
     sess.run(tf.global_variables_initializer())
-    saver = tf.train.Saver()
-    tf.train.write_graph(sess.graph_def, EXPORT_SITE, GRAPH_FN, False)
+
     print("Initiating...")
 
     for i in range(NUM_TRAIN_STEPS):
@@ -295,9 +293,27 @@ with tf.Session() as sess:
 
             print('Test accuracy at step %s: %.2f%%' % (i, (test_accuracy * 100)))
 
-    chkpt = saver.save(sess, MODEL_EXPORT)
+    sess.run(tf.global_variables_initializer())
+    saver = tf.train.Saver()
+    tf.train.write_graph(sess.graph_def, EXPORT_SITE, MODEL_NAME + '.pbtxt', as_text=True)
+    saver.save(sess, MODEL_NAME + '.ckpt')
 
-input_graph_path = MODEL_EXPORT + ".meta"
-input_binary = False
-checkpoint_path = chkpt
-freeze_graph.freeze_graph()
+
+
+def freeze():
+    input_graph_path = MODEL_NAME + '.pbtxt'
+    checkpoint_path = './' + MODEL_NAME + '.ckpt'
+    input_saver_def_path = ""
+    input_binary = False
+    output_node_names = "O"
+    restore_op_name = "save/restore_all"
+    filename_tensor_name = "save/Const:0"
+    output_frozen_graph_name = 'frozen_' + MODEL_NAME + '.pb'
+    output_optimized_graph_name = 'optimized_' + MODEL_NAME + '.pb'
+    clear_devices = False
+    freeze_graph.freeze_graph(input_graph_path, input_saver_def_path,
+                              input_binary, checkpoint_path, output_node_names,
+                              restore_op_name, filename_tensor_name,
+                              output_frozen_graph_name, clear_devices, "")
+
+
