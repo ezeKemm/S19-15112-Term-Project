@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="52d02990-9222-4010-8207-a0fb1f13d8ce" name="Default Changelist" comment="PyTorch Training program... no fastAI&#10;Implemented resnet finetuned model">
+    <list default="true" id="52d02990-9222-4010-8207-a0fb1f13d8ce" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" beforeDir="false" afterPath="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +18,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SortingTraining/ML_TrainingProgram">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+            <state relative-caret-position="425">
+              <caret line="25" column="22" lean-forward="true" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,6 +82,7 @@
         <option value="Zeke M-K" />
       </list>
     </option>
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -115,6 +118,24 @@
             <path>
               <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
               <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
+              <item name="SortingTraining" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
+              <item name="SortingTraining" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
+              <item name="SortingTraining" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -293,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1555782976892</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="FastAi model now saved with 89% accuracy">
+      <created>1561862521053</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1561862521053</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -393,7 +421,8 @@
     <MESSAGE value="Upload of dataset and inital extraction" />
     <MESSAGE value="Finished Training program" />
     <MESSAGE value="PyTorch Training program... no fastAI&#10;Implemented resnet finetuned model" />
-    <option name="LAST_COMMIT_MESSAGE" value="PyTorch Training program... no fastAI&#10;Implemented resnet finetuned model" />
+    <MESSAGE value="FastAi model now saved with 89% accuracy" />
+    <option name="LAST_COMMIT_MESSAGE" value="FastAi model now saved with 89% accuracy" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_24.py" />
@@ -451,8 +480,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SortingTraining/ML_TrainingProgram">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+        <state relative-caret-position="425">
+          <caret line="25" column="22" lean-forward="true" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
