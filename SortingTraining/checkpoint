@@ -1,0 +1,2 @@
+model_checkpoint_path: "recyclables_model"
+all_model_checkpoint_paths: "recyclables_model"

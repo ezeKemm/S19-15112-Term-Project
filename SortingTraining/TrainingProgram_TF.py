@@ -4,6 +4,8 @@
 
 # This code has been borrowed from the TensorFlow resources:
 # https://bit.ly/2I9sGUp
+
+# Modifications included
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -14,6 +16,7 @@ import math
 import os
 import random
 import zipfile as zf
+from tensorflow.python.tools import freeze_graph
 
 from six.moves import urllib
 
@@ -28,7 +31,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import sklearn.metrics as sk_metrics
 import time
-
 
 DATASET_DIR = './dataset-resized'
 TRAIN_FRACTION = 0.8
@@ -50,24 +52,26 @@ def make_train_and_test_sets():
     shuffler = random.Random(RANDOM_SEED)
     is_root = True
     for (dirname, subdirs, filenames) in tf.gfile.Walk(DATASET_DIR):
-      # The root directory gives us the classes
-      if is_root:
-        subdirs = sorted(subdirs)
-        classes = collections.OrderedDict(enumerate(subdirs))
-        label_to_class = dict([(x, i) for i, x in enumerate(subdirs)])
-        is_root = False
-      # The sub directories give us the image files for training.
-      else:
-        filenames.sort()
-        shuffler.shuffle(filenames)
-        full_filenames = [os.path.join(dirname, f) for f in filenames]
-        label = dirname.split('/')[-1]
-        label_class = label_to_class[label]
-        # An example is the image file and it's label class.
-        examples = list(zip(full_filenames, [label_class] * len(filenames)))
-        num_train = int(len(filenames) * TRAIN_FRACTION)
-        train_examples.extend(examples[:num_train])
-        test_examples.extend(examples[num_train:])
+
+        # The root directory gives us the classes
+        if is_root:
+            subdirs = sorted(subdirs)
+            classes = collections.OrderedDict(enumerate(subdirs))
+            label_to_class = dict([(x, i) for i, x in enumerate(subdirs)])
+            is_root = False
+
+        # The sub directories give us the image files for training.
+        else:
+            filenames.sort()
+            shuffler.shuffle(filenames)
+            full_filenames = [os.path.join(dirname, f) for f in filenames]
+            label = dirname.split('/')[-1]
+            label_class = label_to_class[label]
+            # An example is the image file and it's label class.
+            examples = list(zip(full_filenames, [label_class] * len(filenames)))
+            num_train = int(len(filenames) * TRAIN_FRACTION)
+            train_examples.extend(examples[:num_train])
+            test_examples.extend(examples[num_train:])
 
     shuffler.shuffle(train_examples)
     shuffler.shuffle(test_examples)
@@ -154,16 +158,30 @@ def display_images(images_and_classes, cols=5):
         plt.title(flower_class)
 
 
-NUM_IMAGES = 15
-display_images([(get_image(example), get_class(example))
-               for example in TRAIN_EXAMPLES[:NUM_IMAGES]])
+def get_batch(batch_size=None, test=False):
+    """Get a random batch of examples."""
+    examples = TEST_EXAMPLES if test else TRAIN_EXAMPLES
+    batch_examples = random.sample(examples, batch_size) if batch_size else examples
+    return batch_examples
+
+
+def get_images_and_labels(batch_examples):
+    images = [get_encoded_image(e) for e in batch_examples]
+    one_hot_labels = [get_label_one_hot(e) for e in batch_examples]
+    return images, one_hot_labels
+
+
+def get_label_one_hot(example):
+    """Get the one hot encoding vector for the example."""
+    one_hot_vector = np.zeros(NUM_CLASSES)
+    np.put(one_hot_vector, get_label(example), 1)
+    return one_hot_vector
+
 
 LEARNING_RATE = 0.01
 
 tf.reset_default_graph()
 
-# Load a pre-trained learning model from TF-Hub library for extracting features from images. We've
-# chosen this particular module for speed, but many other choices are available.
 
 # Retrieves pre-trained model from TF to use as feature extractor
 # Currently Using: Google's MobileNet v2 with depth multiplier 0.35
@@ -203,7 +221,7 @@ def create_model(features):
 # how much the input resembles this class. This vector of numbers is often
 # called the "logits".
 logits = create_model(features)
-labels = tf.placeholder(tf.float32, [None, NUM_CLASSES])
+labels = tf.placeholder(tf.float32, [None, NUM_CLASSES], name="INPUT")
 
 # Mathematically, a good way to measure how much the predicted probabilities
 # diverge from the truth is the "cross-entropy" between the two probability
@@ -219,7 +237,7 @@ train_op = optimizer.minimize(loss=cross_entropy_mean)
 # The "softmax" function transforms the logits vector into a vector of
 # probabilities: non-negative numbers that sum up to one, and the i-th number
 # says how likely the input comes from class i.
-probabilities = tf.nn.softmax(logits)
+probabilities = tf.nn.softmax(logits, name="OUTPUT")
 
 # We choose the highest one as the predicted class.
 prediction = tf.argmax(probabilities, 1)
@@ -233,79 +251,53 @@ show_graph(tf.get_default_graph())
 
 
 # How long will we train the network (number of batches).
-NUM_TRAIN_STEPS = 100
+NUM_TRAIN_STEPS = 50
 # How many training examples we use in each step.
 TRAIN_BATCH_SIZE = 10
 # How often to evaluate the model performance.
 EVAL_EVERY = 10
 
 
-def get_batch(batch_size=None, test=False):
-    """Get a random batch of examples."""
-    examples = TEST_EXAMPLES if test else TRAIN_EXAMPLES
-    batch_examples = random.sample(examples, batch_size) if batch_size else examples
-    return batch_examples
-
-
-def get_images_and_labels(batch_examples):
-    images = [get_encoded_image(e) for e in batch_examples]
-    one_hot_labels = [get_label_one_hot(e) for e in batch_examples]
-    return images, one_hot_labels
-
-
-def get_label_one_hot(example):
-    """Get the one hot encoding vector for the example."""
-    one_hot_vector = np.zeros(NUM_CLASSES)
-    np.put(one_hot_vector, get_label(example), 1)
-    return one_hot_vector
-
+MODEL_EXPORT = "recyclables_model"
+GRAPH_FN = "model_net.pb"
+EXPORT_SITE = "./export"
 
 with tf.Session() as sess:
+
     sess.run(tf.global_variables_initializer())
+    saver = tf.train.Saver()
+    tf.train.write_graph(sess.graph_def, EXPORT_SITE, GRAPH_FN, False)
     print("Initiating...")
+
     for i in range(NUM_TRAIN_STEPS):
+
         # Get a random batch of training examples.
         train_batch = get_batch(batch_size=TRAIN_BATCH_SIZE)
         batch_images, batch_labels = get_images_and_labels(train_batch)
+
         # Run the train_op to train the model.
         train_loss, _, train_accuracy = sess.run(
             [cross_entropy_mean, train_op, accuracy],
             feed_dict={encoded_images: batch_images, labels: batch_labels})
+
         is_final_step = (i == (NUM_TRAIN_STEPS - 1))
+
         if i % EVAL_EVERY == 0 or is_final_step:
+
             # Get a batch of test examples.
             test_batch = get_batch(batch_size=None, test=True)
             batch_images, batch_labels = get_images_and_labels(test_batch)
+
             # Evaluate how well our model performs on the test set.
             test_loss, test_accuracy, test_prediction, correct_predicate = sess.run(
               [cross_entropy_mean, accuracy, prediction, correct_prediction],
               feed_dict={encoded_images: batch_images, labels: batch_labels})
+
             print('Test accuracy at step %s: %.2f%%' % (i, (test_accuracy * 100)))
 
+    chkpt = saver.save(sess, MODEL_EXPORT)
 
-def show_confusion_matrix(test_labels, predictions):
-    """Compute confusion matrix and normalize."""
-    confusion = sk_metrics.confusion_matrix(
-      np.argmax(test_labels, axis=1), predictions)
-    confusion_normalized = confusion.astype("float") / confusion.sum(axis=1)
-    axis_labels = list(CLASSES.values())
-    ax = sns.heatmap(
-        confusion_normalized, xticklabels=axis_labels, yticklabels=axis_labels,
-        cmap='Blues', annot=True, fmt='.2f', square=True)
-    plt.title("Confusion matrix")
-    plt.ylabel("True label")
-    plt.xlabel("Predicted label")
-
-
-show_confusion_matrix(batch_labels, test_prediction)
-
-
-incorrect = [
-    (example, CLASSES[prediction])
-    for example, prediction, is_correct in zip(test_batch, test_prediction, correct_predicate)
-    if not is_correct
-]
-display_images(
-  [(get_image(example), "prediction: {0}\nlabel:{1}".format(incorrect_prediction, get_class(example)))
-   for (example, incorrect_prediction) in incorrect[:20]])
-
+input_graph_path = MODEL_EXPORT + ".meta"
+input_binary = False
+checkpoint_path = chkpt
+freeze_graph.freeze_graph()
