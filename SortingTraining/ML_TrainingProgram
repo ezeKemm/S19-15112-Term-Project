@@ -13,7 +13,6 @@ import shutil
 import re
 import seaborn as sns
 
-
 # Initial Code to Extract and Sort Files from dataset
 if not os.path.exists("dataset-resized"):
     files = zf.ZipFile("dataset-resized.zip", "r")
