@@ -13,7 +13,6 @@ import shutil
 import re
 import seaborn as sns
 
-
 # Initial Code to Extract and Sort Files from dataset
 if not os.path.exists("dataset-resized"):
     files = zf.ZipFile("dataset-resized.zip", "r")
@@ -102,7 +101,6 @@ def main():
         ## I use data/test here because the images can be mixed up
         move_files(test_source_files, "data/test")
 
-
     path = Path(os.getcwd())/"data"
     tfms = get_transforms(do_flip=True, flip_vert=True)
     data = ImageDataBunch.from_folder(path, test="test", ds_tfms=tfms, bs=8)
@@ -112,10 +110,6 @@ def main():
     learn = cnn_learner(data, models.resnet34, metrics=error_rate)
 
     learn.lr_find(start_lr=1e-6,end_lr=1e1)
-
-    curr_plot = plt.gcf()
-    curr_plot.canvas.draw()
-    # learn.recorder.plot()
 
     learn.fit_one_cycle(20, max_lr=5.13e-03)
 
@@ -160,6 +154,7 @@ def main():
     accuracy = correct / sum(sum(cm))
     print(accuracy)
 
+    model_path = learn.save("recyc_model", return_path=True)
 
 if __name__ == '__main__':
     main()

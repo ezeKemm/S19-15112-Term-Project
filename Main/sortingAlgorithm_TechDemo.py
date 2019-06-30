@@ -6,9 +6,16 @@ import time
 import collections
 import math
 import sys
+import os
 
-# Grabs files for loading model
-# from SortingTraining import recyclable_model
+import click
+import cv2
+import imutils
+from pathlib import Path
+from fastai.vision.data import ImageItemList
+from fastai.vision.learner import create_cnn
+from fastai.vision import models
+from fastai.vision.image import pil2tensor,Image
 
 
 def loadTrainedModel():
@@ -22,7 +29,19 @@ def loadTrainedModel():
 
 def main():
     # Retrieves Trained model from SortingTraining Directory
-    model = loadTrainedModel()
+
+    path = Path(os.getcwd()) / "data"
+    data = (
+            ImageItemList.from_folder(path, csv_name="labels.csv")
+            .no_split()
+            .label_from_df(label_delim=" ")
+            .transform(None, size=128)
+            .databunch(no_check=True)
+            .normalize()
+    )
+
+    learn = create_cnn(data, models.resnet34, pretrained=False)
+    learn.load("recyc_model")
 
     # Connects to webcam, If fails attempts again
     MAX_RETRIES = 10
@@ -37,7 +56,7 @@ def main():
     else:
         print("Failed to successfully connect to camera after 10 tries")
 
-    while (True):
+    while True:
         # Capture frame-by-frame
         ret, frame = webcam.read()
 

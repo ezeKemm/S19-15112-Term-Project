@@ -1,0 +1,2 @@
+model_checkpoint_path: "recyclables.ckpt"
+all_model_checkpoint_paths: "recyclables.ckpt"
