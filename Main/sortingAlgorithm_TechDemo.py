@@ -8,11 +8,9 @@ import math
 import sys
 import os
 
-import click
-import cv2
-import imutils
 from pathlib import Path
-from fastai.vision.data import ImageItemList
+from fastai.vision import *
+from fastai.vision.data import *
 from fastai.vision.learner import create_cnn
 from fastai.vision import models
 from fastai.vision.image import pil2tensor,Image
@@ -29,19 +27,13 @@ def loadTrainedModel():
 
 def main():
     # Retrieves Trained model from SortingTraining Directory
+    path = "/Users/zeke/PycharmProjects/15112_TP_S19/SortingTraining/data"
+    tfms = get_transforms(do_flip=False)
+    data = ImageDataBunch.from_folder(path, train="train", valid="valid")
 
-    path = Path(os.getcwd()) / "data"
-    data = (
-            ImageItemList.from_folder(path, csv_name="labels.csv")
-            .no_split()
-            .label_from_df(label_delim=" ")
-            .transform(None, size=128)
-            .databunch(no_check=True)
-            .normalize()
-    )
-
-    learn = create_cnn(data, models.resnet34, pretrained=False)
-    learn.load("recyc_model")
+    learn = cnn_learner(data, models.resnet34).load('recyc_model')
+    learn.export()
+    learn = load_learner(path)
 
     # Connects to webcam, If fails attempts again
     MAX_RETRIES = 10
@@ -61,19 +53,23 @@ def main():
         ret, frame = webcam.read()
 
         # Display the resulting frame
-        cv.imshow('frame', frame)
+        cv.imshow('Feed', frame)
+        imgInput = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+        pred, idx, probs = learn.predict(Image(pil2tensor(imgInput, np.float32).div_(255)))
+        print(pred, probs)
+
         if cv.waitKey(1) & 0xFF == ord('q'):
-            break
-        elif cv.waitKey(1) & 0xFF == ord('e'):
-            still = webcam.read()
+            cv.destroyWindow('Feed')
             webcam.release()
-            cv.imshow('still', still)
-            if cv.waitKey(1) & 0xFF == ord('q'):
-                cv.destroyAllWindows()
+            break
+
+        """elif cv.waitKey(1) & 0xFF == ord(' '):
+            print("Command received!")
+            __, still = webcam.read()
+            cv.imshow('still', still)"""
 
     # When everything done, release the capture
-    webcam.release()
-    cv.destroyAllWindows()
+
 
 
 if __name__ == '__main__':
