@@ -10,33 +10,33 @@ import os
 
 from pathlib import Path
 from fastai.vision import *
-from fastai.vision.data import *
-from fastai.vision.learner import create_cnn
+from fastai.vision.data import ImageDataBunch
+from fastai.vision.learner import cnn_learner
 from fastai.vision import models
-from fastai.vision.image import pil2tensor,Image
+from fastai.vision.image import pil2tensor, Image
 
 
-def loadTrainedModel():
-    MODEL_PB = ""
-    MODEL_CONFIG = ""
+def loadModel():
 
-    retrievedModel = cv.dnn.readNetFromTensorflow(MODEL_PB, MODEL_CONFIG)
+    # Retrieves trained model from SortingTraining Directory
+    path = os.getcwd() + "/data"
 
-    return retrievedModel
-
-
-def main():
-    # Retrieves Trained model from SortingTraining Directory
-    path = "/Users/zeke/PycharmProjects/15112_TP_S19/SortingTraining/data"
-    tfms = get_transforms(do_flip=False)
+    # path = "/Users/zeke/PycharmProjects/15112_TP_S19/SortingTraining/data"
     data = ImageDataBunch.from_folder(path, train="train", valid="valid")
 
+    # Loads trained model, exports for inference, and loads inference model
     learn = cnn_learner(data, models.resnet34).load('recyc_model')
     learn.export()
     learn = load_learner(path)
 
-    # Connects to webcam, If fails attempts again
+    return learn
+
+
+def connectCaptureDevice():
+
+    # Connects to webcam; if fails, attempts again
     MAX_RETRIES = 10
+
     for i in range(MAX_RETRIES):
         try:
             webcam = cv.VideoCapture(0)
@@ -47,6 +47,39 @@ def main():
             break
     else:
         print("Failed to successfully connect to camera after 10 tries")
+        quit()
+
+    return webcam
+
+
+def prediction(learn, input):
+
+    # Forward propagates through nn to classify image
+    pred, idx, probs = learn.predict(Image(pil2tensor(input, np.float32).div_(255)))
+
+    # If accurate prediction can't be made, chooses trash
+    if max(probs) < 0.5:
+        pred = "Trash"
+        return pred
+
+    # Sorts classification of waste type into disposal categories
+    if pred == "paper" or pred == "cardboard":
+        pred = "Paper"
+    elif pred == "glass" or pred == "metal":
+        pred = "Glass/Metal"
+    elif pred == "plastic":
+        pred = "Plastic"
+    else:
+        pred = "Trash"
+
+    return pred
+
+
+def main():
+
+    # Loads image classifying model and retrieves webcam capture
+    learn = loadModel()
+    webcam = connectCaptureDevice()
 
     while True:
         # Capture frame-by-frame
@@ -54,10 +87,10 @@ def main():
 
         # Display the resulting frame
         cv.imshow('Feed', frame)
-        imgInput = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
-        pred, idx, probs = learn.predict(Image(pil2tensor(imgInput, np.float32).div_(255)))
-        print(pred, probs)
+        input = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        category = prediction(learn, input)
 
+        # Exit Standby
         if cv.waitKey(1) & 0xFF == ord('q'):
             cv.destroyWindow('Feed')
             webcam.release()
@@ -68,8 +101,7 @@ def main():
             __, still = webcam.read()
             cv.imshow('still', still)"""
 
-    # When everything done, release the capture
-
+    # When everything done, end script
 
 
 if __name__ == '__main__':
