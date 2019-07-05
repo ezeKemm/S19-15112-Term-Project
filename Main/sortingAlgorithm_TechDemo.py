@@ -16,7 +16,7 @@ from fastai.vision import models
 from fastai.vision.image import pil2tensor, Image
 
 
-def loadModel():
+def load_model():
 
     # Retrieves trained model from SortingTraining Directory
     path = os.getcwd() + "/data"
@@ -32,7 +32,7 @@ def loadModel():
     return learn
 
 
-def connectCaptureDevice():
+def connect_capture_device():
 
     # Connects to webcam; if fails, attempts again
     MAX_RETRIES = 10
@@ -75,18 +75,20 @@ def prediction(learn, input):
     return pred
 
 
-def main():
+def take_shot(webcam):
+    __, image = webcam.read()
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    return image
 
-    # Loads image classifying model and retrieves webcam capture
-    learn = loadModel()
-    webcam = connectCaptureDevice()
+
+def stream_capture(webcam, learn):
 
     while True:
         # Capture frame-by-frame
-        ret, frame = webcam.read()
+        ret, image = webcam.read()
 
         # Display the resulting frame
-        cv.imshow('Feed', frame)
+        cv.imshow('Feed', image)
         input = cv.cvtColor(image, cv.COLOR_BGR2RGB)
         category = prediction(learn, input)
 
@@ -96,12 +98,13 @@ def main():
             webcam.release()
             break
 
-        """elif cv.waitKey(1) & 0xFF == ord(' '):
-            print("Command received!")
-            __, still = webcam.read()
-            cv.imshow('still', still)"""
 
-    # When everything done, end script
+def main():
+
+    # Loads image classifying model and retrieves webcam capture
+    learn = load_model()
+    webcam = connect_capture_device()
+    return webcam, learn
 
 
 if __name__ == '__main__':
