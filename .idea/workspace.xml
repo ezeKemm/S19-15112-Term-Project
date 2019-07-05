@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52d02990-9222-4010-8207-a0fb1f13d8ce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/unnamed.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main/UI_Interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main/UI_Interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" beforeDir="false" afterPath="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,58 +18,41 @@
     <favorites_list name="TermProject" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48946258">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/SortingTraining/ML_TrainingProgram">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="85">
-                  <caret line="5" column="27" lean-forward="true" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/SortingTraining/TrainingProgram_TF.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4896">
-                  <caret line="294" selection-start-line="294" selection-end-line="294" />
-                  <folding>
-                    <element signature="e#255#293#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3349">
-                  <caret line="239" column="67" selection-start-line="239" selection-start-column="67" selection-end-line="239" selection-end-column="67" />
-                  <folding>
-                    <element signature="e#0#47#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="170">
-                  <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SortingTraining/ML_TrainingProgram">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="27" lean-forward="true" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SortingTraining/TrainingProgram_TF.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4896">
+              <caret line="294" selection-start-line="294" selection-end-line="294" />
+              <folding>
+                <element signature="e#255#293#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="52">
+              <caret line="205" lean-forward="true" selection-start-line="205" selection-end-line="205" />
+              <folding>
+                <element signature="e#0#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -125,8 +106,8 @@
         <option value="$PROJECT_DIR$/SortingTraining/TrainingProgram_TF.py" />
         <option value="$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_20.py" />
-        <option value="$PROJECT_DIR$/Main/UI_Interface.py" />
         <option value="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" />
+        <option value="$PROJECT_DIR$/Main/UI_Interface.py" />
       </list>
     </option>
   </component>
@@ -216,7 +197,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" />
+      <option name="SCRIPT_NAME" value="C:\Users\EzeKemm\Box\15-112\S19-15112-Term-Project\SortingTraining\ML_TrainingProgram.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -331,12 +312,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.ML_TrainingProgram" />
       <item itemvalue="Python.TrainingProgram_TF" />
-      <item itemvalue="Python.UI_Interface" />
-      <item itemvalue="Python.scratch_20" />
+      <item itemvalue="Python.ML_TrainingProgram" />
       <item itemvalue="Python.scratch_25" />
       <item itemvalue="Python.sortingAlgorithm" />
+      <item itemvalue="Python.UI_Interface" />
+      <item itemvalue="Python.scratch_20" />
     </list>
     <recent_temporary>
       <list>
@@ -415,7 +396,14 @@
       <option name="project" value="LOCAL" />
       <updated>1562318626821</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Minor improvments">
+      <created>1562333825285</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1562333825285</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -429,7 +417,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49945828" visible="true" weight="0.1677193" />
       <window_info id="Structure" order="1" sideWeight="0.5005417" side_tool="true" weight="0.14120126" />
@@ -530,7 +517,8 @@
     <MESSAGE value="Integrated inference model with OpenCV - Successful test" />
     <MESSAGE value="Adding complexity" />
     <MESSAGE value="Merged Files -- Receiving Error" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merged Files -- Receiving Error" />
+    <MESSAGE value="Minor improvments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor improvments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -626,18 +614,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3349">
-          <caret line="239" column="67" selection-start-line="239" selection-start-column="67" selection-end-line="239" selection-end-column="67" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="153">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
@@ -645,6 +623,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="27" lean-forward="true" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="205" lean-forward="true" selection-start-line="205" selection-end-line="205" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

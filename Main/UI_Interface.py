@@ -203,6 +203,7 @@ def error_counter(correct, data):
     log.write(entry)
     log.close()
 
+
 # Determines if click is in the buttons' boundaries
 def check_cursor(x, y, data):
 
