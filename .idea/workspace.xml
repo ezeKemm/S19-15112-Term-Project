@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/Main/UI_Interface.py" line="125" mnemonic="3" />
+    <bookmark url="file://$PROJECT_DIR$/Main/UI_Interface.py" line="123" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52d02990-9222-4010-8207-a0fb1f13d8ce" name="Default Changelist" comment="Integrated inference model with OpenCV - Successful test">
-      <change afterPath="$PROJECT_DIR$/Main/UI_Interface.py" afterDir="false" />
+    <list default="true" id="52d02990-9222-4010-8207-a0fb1f13d8ce" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main/UI_Interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main/UI_Interface.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,7 +19,7 @@
     <favorites_list name="TermProject" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.48946258">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -46,23 +46,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="535">
-                  <caret line="79" column="48" selection-start-line="79" selection-start-column="4" selection-end-line="79" selection-end-column="48" />
-                  <folding>
-                    <element signature="e#0#47#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="260">
-                  <caret line="192" column="19" lean-forward="true" selection-start-line="192" selection-start-column="19" selection-end-line="192" selection-end-column="19" />
+                <state relative-caret-position="561">
+                  <caret line="135" column="4" selection-start-line="135" selection-start-column="4" selection-end-line="135" selection-end-column="4" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
                   </folding>
@@ -74,13 +62,25 @@
       </split-first>
       <split-second>
         <leaf>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_26.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="153">
-                  <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+                <state relative-caret-position="170">
+                  <caret line="10" selection-start-line="10" selection-end-line="10" />
                   <folding>
                     <element signature="e#0#20#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="518">
+                  <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
+                  <folding>
+                    <element signature="e#0#47#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -139,9 +139,9 @@
         <option value="$PROJECT_DIR$/Main/sortingAlgorithm.py" />
         <option value="$PROJECT_DIR$/SortingTraining/freeze_graph.py" />
         <option value="$PROJECT_DIR$/SortingTraining/TrainingProgram_TF.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_26.py" />
         <option value="$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py" />
         <option value="$PROJECT_DIR$/Main/UI_Interface.py" />
-        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_26.py" />
       </list>
     </option>
   </component>
@@ -420,7 +420,14 @@
       <option name="project" value="LOCAL" />
       <updated>1562096095036</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Implemented UI - Integrating w/ OpenCV to show images">
+      <created>1562311092594</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1562311092594</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -436,12 +443,12 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49945828" visible="true" weight="0.13066386" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49945828" weight="0.090094835" />
       <window_info id="Structure" order="1" sideWeight="0.5005417" side_tool="true" weight="0.14120126" />
       <window_info id="Favorites" order="2" sideWeight="0.5005417" side_tool="true" weight="0.14120126" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32827735" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49841937" visible="true" weight="0.3531961" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49841937" weight="0.3531961" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.26506025" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -532,7 +539,8 @@
     <MESSAGE value="..." />
     <MESSAGE value="minor fixes" />
     <MESSAGE value="Integrated inference model with OpenCV - Successful test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Integrated inference model with OpenCV - Successful test" />
+    <MESSAGE value="Implemented UI - Integrating w/ OpenCV to show images" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented UI - Integrating w/ OpenCV to show images" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -636,35 +644,35 @@
     <entry file="file://$PROJECT_DIR$/SortingTraining/data/train/glass/glass18.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/Main/glass11v2.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_26.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="79" column="48" selection-start-line="79" selection-start-column="4" selection-end-line="79" selection-end-column="48" />
+        <state relative-caret-position="518">
+          <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/glass11v2.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="192" column="19" lean-forward="true" selection-start-line="192" selection-start-column="19" selection-end-line="192" selection-end-column="19" />
+        <state relative-caret-position="561">
+          <caret line="135" column="4" selection-start-line="135" selection-start-column="4" selection-end-line="135" selection-end-column="4" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_26.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>

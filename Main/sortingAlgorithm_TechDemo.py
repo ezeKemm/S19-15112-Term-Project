@@ -81,6 +81,7 @@ def take_shot(webcam):
     return image
 
 
+# IGNORE -- For testing purposes
 def stream_capture(webcam, learn):
 
     while True:

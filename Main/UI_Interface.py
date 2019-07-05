@@ -55,16 +55,12 @@ def check_Cursor(x, y, data):
             data.button_fill[button] = "red"
 
 
-def retrieve_image():
-
-    # Test code
+# Retrieves image from webcam with OpenCV
+def retrieve_image(data):
     # TODO -- Replace with call to webcam capture
-    path = ""
-    # image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-    image = Image.open(path)
+    image = capture.take_shot(data.webcam)
+    image = Image.fromarray(image)
     image = ImageTk.PhotoImage(image)
-    # image = PhotoImage(file=path)
-    # image = Image.fromarray(image)
     print("Success!")
 
     return image
@@ -72,6 +68,7 @@ def retrieve_image():
 
 def init(data):
     # load data.xyz as appropriate
+    data.webcam, data.learn = capture.main()    # Initialize capture and prediction
     data.timer = 0
     data.num_buttons = num_classes
     data.bcell_width = data.width // data.num_buttons
@@ -80,6 +77,8 @@ def init(data):
     data.y_margin = 10
     data.button_fill = [ "white" for i in range(data.num_buttons) ]
     data.button_labels = labels
+
+    data.image = None
     pass
 
 
@@ -92,7 +91,7 @@ def mousePressed(event, data):
 def keyPressed(event, data):
     # use event.char and event.keysym
     if event.keysym == "e":
-        retrieve_image()
+        data.image = retrieve_image(data)
     pass
 
 
@@ -103,52 +102,40 @@ def timerFired(data):
 
 
 def redrawAll(canvas, data):
-    # draw in canvas
 
     # TODO -- Center buttons correctly
     # Draw panel background
-    # height = data.height * data.bcell_height
-    # canvas.create_rectangle(0, 0, data.width, data.height - height, fill="gray")
-    # canvas.create_rectangle(0, data.height - height, data.width, data.height, fill="black")
+    height = data.height * data.bcell_height
+    canvas.create_rectangle(0, 0, data.width, data.height - height, fill="gray")
+    canvas.create_rectangle(0, data.height - height, data.width, data.height, fill="black")
 
-    # # Draw Buttons
-    # for button in range(data.num_buttons):
-    #     start_x = button * data.bcell_width + data.x_margin
-    #     end_x = button * data.bcell_width + data.bcell_width - data.x_margin
-    #     start_y = data.height - height + data.y_margin
-    #     end_y = data.height - data.y_margin
-    #
-    #     # TODO -- Remove this and fix calculation - Clicking out of bounds still works
-    #     if button == 0:
-    #         start_x = button * data.bcell_width + (data.x_margin * 2)
-    #     elif button == 3:
-    #         end_x = button * data.bcell_width + data.bcell_width - (data.x_margin * 2)
-    #
-    #     canvas.create_rectangle(start_x, start_y, end_x, end_y,
-    #                             fill=data.button_fill[button])
-    #
-    #     # Adds text labels to buttons
-    #     txt_x = (end_x - start_x) // 2 + start_x
-    #     txt_y = (height // 2) + (data.height - height) - data.y_margin    # Sloppy
-    #     # TODO -- Try to find simpler calculation
-    #     canvas.create_text(txt_x, txt_y,
-    #                        text=data.button_labels[button],
-    #                        anchor=N,
-    #                        font="Sans 10 bold")
+    # Draw Buttons
+    for button in range(data.num_buttons):
+        start_x = button * data.bcell_width + data.x_margin
+        end_x = button * data.bcell_width + data.bcell_width - data.x_margin
+        start_y = data.height - height + data.y_margin
+        end_y = data.height - data.y_margin
 
-    image = retrieve_image()
+        # TODO -- Remove this and fix calculation - Clicking out of bounds still works
+        if button == 0:
+            start_x = button * data.bcell_width + (data.x_margin * 2)
+        elif button == 3:
+            end_x = button * data.bcell_width + data.bcell_width - (data.x_margin * 2)
 
-    canvas.create_image(20, 20, anchor=NW, image=image)
+        canvas.create_rectangle(start_x, start_y, end_x, end_y,
+                                fill=data.button_fill[button])
 
-        ## DEBUG
+        # Adds text labels to buttons
+        txt_x = (end_x - start_x) // 2 + start_x
+        txt_y = (height // 2) + (data.height - height) - data.y_margin    # Sloppy
+        # TODO -- Try to find simpler calculation
+        canvas.create_text(txt_x, txt_y,
+                           text=data.button_labels[button],
+                           anchor=N,
+                           font="Sans 10 bold")
 
-        # start_x2 = button * data.bcell_width
-        # end_x2 = button * data.bcell_width + data.bcell_width
-        # start_y2 = data.height - height
-        # end_y2 = data.height
-        #
-        # colors = ["green", "orange", "pink", "yellow"]
-        # canvas.create_rectangle(start_x2, start_y2, end_x2, end_y2, fill="", outline=colors[button])
+    if data.image is not None:
+        canvas.create_image(20, 20, anchor=NW, image=data.image)
 
 
 ####################################
