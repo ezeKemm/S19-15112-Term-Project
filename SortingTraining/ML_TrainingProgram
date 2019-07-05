@@ -1,7 +1,11 @@
+############################
+# This code has been sourced and modified from
+# https://towardsdatascience.com/how-to-build-an-image-classifier-for-waste-sorting-6d11d3c9c478
+############################
+
 from fastai.vision import *
 from fastai.metrics import error_rate
 from pathlib import Path
-from glob2 import glob
 from sklearn.metrics import confusion_matrix
 
 import pandas as pd

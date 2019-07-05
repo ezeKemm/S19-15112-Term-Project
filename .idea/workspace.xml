@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52d02990-9222-4010-8207-a0fb1f13d8ce" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/unnamed.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main/UI_Interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main/UI_Interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SortingTraining/data/export.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/SortingTraining/data/export.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SortingTraining/recyclables.ckpt.data-00000-of-00001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SortingTraining/recyclables.ckpt.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SortingTraining/recyclables.ckpt.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" beforeDir="false" afterPath="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,66 +20,58 @@
     <favorites_list name="TermProject" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SortingTraining/TrainingProgram_TF.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3536">
-              <caret line="268" selection-start-line="268" selection-end-line="268" />
-              <folding>
-                <element signature="e#255#293#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SortingTraining/ML_TrainingProgram">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1691">
-              <caret line="113" column="10" selection-start-line="113" selection-start-column="10" selection-end-line="113" selection-end-column="10" />
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="11" selection-start-line="11" selection-end-line="15" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3225">
-              <caret line="245" column="29" lean-forward="true" selection-start-line="245" selection-start-column="29" selection-end-line="245" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#47#0" expanded="true" />
-                <element signature="e#2510#2911#0" />
-                <element signature="e#2985#3330#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_20.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#5#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.48946258">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/SortingTraining/ML_TrainingProgram">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="85">
+                  <caret line="5" column="27" lean-forward="true" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/SortingTraining/TrainingProgram_TF.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="4896">
+                  <caret line="294" selection-start-line="294" selection-end-line="294" />
+                  <folding>
+                    <element signature="e#255#293#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="3349">
+                  <caret line="239" column="67" selection-start-line="239" selection-start-column="67" selection-end-line="239" selection-end-column="67" />
+                  <folding>
+                    <element signature="e#0#47#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="170">
+                  <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -127,7 +117,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_24.py" />
         <option value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/fastai/basic_train.py" />
         <option value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/fastai/sixel.py" />
-        <option value="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" />
         <option value="$PROJECT_DIR$/Training.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_25.py" />
         <option value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/matplotlib/pyplot.py" />
@@ -137,6 +126,7 @@
         <option value="$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_20.py" />
         <option value="$PROJECT_DIR$/Main/UI_Interface.py" />
+        <option value="$PROJECT_DIR$/SortingTraining/ML_TrainingProgram" />
       </list>
     </option>
   </component>
@@ -151,29 +141,41 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="15112_TP_S19" type="b2602c69:ProjectViewProjectNode" />
-              <item name="15112_TP_S19" type="462c0819:PsiDirectoryNode" />
+              <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="15112_TP_S19" type="b2602c69:ProjectViewProjectNode" />
-              <item name="15112_TP_S19" type="462c0819:PsiDirectoryNode" />
+              <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
               <item name="Main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="15112_TP_S19" type="b2602c69:ProjectViewProjectNode" />
-              <item name="15112_TP_S19" type="462c0819:PsiDirectoryNode" />
-              <item name="Main" type="462c0819:PsiDirectoryNode" />
-              <item name="history" type="462c0819:PsiDirectoryNode" />
+              <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
+              <item name="SortingTraining" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
+              <item name="SortingTraining" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="S19-15112-Term-Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="S19-15112-Term-Project" type="462c0819:PsiDirectoryNode" />
+              <item name="SortingTraining" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="train" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -206,6 +208,9 @@
       <module name="TermProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="/usr/local/bin/python3.7" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/SortingTraining" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -326,12 +331,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.TrainingProgram_TF" />
       <item itemvalue="Python.ML_TrainingProgram" />
-      <item itemvalue="Python.scratch_25" />
-      <item itemvalue="Python.sortingAlgorithm" />
+      <item itemvalue="Python.TrainingProgram_TF" />
       <item itemvalue="Python.UI_Interface" />
       <item itemvalue="Python.scratch_20" />
+      <item itemvalue="Python.scratch_25" />
+      <item itemvalue="Python.sortingAlgorithm" />
     </list>
     <recent_temporary>
       <list>
@@ -423,12 +428,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="23" width="1446" height="873" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49945828" visible="true" weight="0.1677193" />
       <window_info id="Structure" order="1" sideWeight="0.5005417" side_tool="true" weight="0.14120126" />
       <window_info id="Favorites" order="2" sideWeight="0.5005417" side_tool="true" weight="0.14120126" />
-      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3277849" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.35339308" />
@@ -440,6 +445,7 @@
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.3290653" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5010571" side_tool="true" weight="0.32891566" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3277849" />
+      <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -591,37 +597,10 @@
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/tensorflow/python/tools/freeze_graph.py" />
     <entry file="file://$PROJECT_DIR$/SortingTraining/recyclables_model.meta" />
     <entry file="file://$PROJECT_DIR$/SortingTraining/export/model_net.pbtxt" />
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/tensorflow/python/framework/importer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="90" column="19" lean-forward="true" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/tensorflow/python/tools/freeze_graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="90" column="36" selection-start-line="90" selection-start-column="36" selection-end-line="90" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SortingTraining/freeze_graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="131" column="24" selection-start-line="131" selection-start-column="9" selection-end-line="131" selection-end-column="24" />
-          <folding>
-            <element signature="e#1581#1619#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SortingTraining/checkpoint">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="19" selection-start-column="19" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/tensorflow/python/framework/importer.py" />
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/tensorflow/python/tools/freeze_graph.py" />
+    <entry file="file://$PROJECT_DIR$/SortingTraining/freeze_graph.py" />
+    <entry file="file://$PROJECT_DIR$/SortingTraining/checkpoint" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_20.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -631,62 +610,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/fastai/core.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="189" selection-start-line="189" selection-end-line="189" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/fastai/core.py" />
+    <entry file="file://$PROJECT_DIR$/Main/prediction_log.txt" />
+    <entry file="file://$PROJECT_DIR$/Main/history/counter.txt" />
+    <entry file="file://$PROJECT_DIR$/Main/history/prediction_log.txt" />
     <entry file="file://$PROJECT_DIR$/SortingTraining/TrainingProgram_TF.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3536">
-          <caret line="268" selection-start-line="268" selection-end-line="268" />
+        <state relative-caret-position="4896">
+          <caret line="294" selection-start-line="294" selection-end-line="294" />
           <folding>
             <element signature="e#255#293#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SortingTraining/ML_TrainingProgram">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1691">
-          <caret line="113" column="10" selection-start-line="113" selection-start-column="10" selection-end-line="113" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/prediction_log.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="30" selection-start-column="30" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main/sortingAlgorithm_TechDemo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="11" selection-start-line="11" selection-end-line="15" selection-end-column="49" />
+        <state relative-caret-position="170">
+          <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/history/counter.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/history/prediction_log.txt">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/UI_Interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3225">
-          <caret line="245" column="29" lean-forward="true" selection-start-line="245" selection-start-column="29" selection-end-line="245" selection-end-column="29" />
+        <state relative-caret-position="3349">
+          <caret line="239" column="67" selection-start-line="239" selection-start-column="67" selection-end-line="239" selection-end-column="67" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
-            <element signature="e#2510#2911#0" />
-            <element signature="e#2985#3330#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SortingTraining/ML_TrainingProgram">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="27" lean-forward="true" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
         </state>
       </provider>
     </entry>

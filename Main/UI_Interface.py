@@ -222,6 +222,7 @@ def check_cursor(x, y, data):
 
 def init(data):
 
+    # For the buttons
     data.num_buttons = len(classes)
     data.bcell_width = data.width // data.num_buttons
     data.bcell_height = 0.20    # represented as a fraction of total height
@@ -236,7 +237,7 @@ def init(data):
     data.confid = 0
     data.bin = None
 
-    # No given prediction so no selection needed
+    # No given prediction so no selection needed -- Slightly broken
     data.clicked = True
     data.checked = True
 
