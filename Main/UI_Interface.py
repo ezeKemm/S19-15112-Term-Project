@@ -1,23 +1,114 @@
+from __future__ import print_function, division
+
 from tkinter import *
+import cv2 as cv
 from PIL import Image, ImageTk
 import time
 import cv2 as cv
-from Main import sortingAlgorithm_TechDemo as capture
+# from Main import sortingAlgorithm_TechDemo as capture
 
 
-# TODO -- Link file to be used by sortingAlgorithm
+from fastai.vision import *
+from fastai.vision.data import ImageDataBunch
+from fastai.vision.learner import cnn_learner
+from fastai.vision import models
+from fastai.vision.image import pil2tensor, Image
+
+# TODO -- Test splitting file for functionality
 ####################################
-# customize these functions
+# Initializes
 ####################################
 
 
-# TODO -- Rework to not use global vars
-def start_UI(classes):
-    global num_classes
-    global labels
-    labels = classes
-    num_classes = len(classes)
-    run(600, 300)
+def load_model():
+
+    # Retrieves trained model from SortingTraining Directory
+    # path = os.getcwd() + "/data"
+
+    path = "/Users/zeke/PycharmProjects/15112_TP_S19/SortingTraining/data"
+    tfms = get_transforms(do_flip=False)
+    data = ImageDataBunch.from_folder(path, train="train", valid="valid")
+
+    # Loads trained model, exports for inference, and loads inference model
+    learn = cnn_learner(data, models.resnet34).load('recyc_model')
+    learn.export()
+    learn = load_learner(path)
+
+    return learn
+
+
+# Connects to webcam; if fails, attempts again
+def connect_capture_device():
+
+    MAX_RETRIES = 10
+
+    for i in range(MAX_RETRIES):
+        try:
+            webcam = cv.VideoCapture(0)
+        except:
+            print("Failed to connect to webcam, retrying...")
+            continue
+        else:
+            break
+    else:
+        print("Failed to successfully connect to camera after 10 tries")
+        quit()
+
+    return webcam
+
+####################################
+####################################
+
+
+def prediction(learn, input):
+
+    # Forward propagates through nn to classify image
+    pred, idx, probs = learn.predict(Image(pil2tensor(input, np.float32).div_(255)))
+
+    # If accurate prediction can't be made, chooses trash
+    if max(probs) < 0.5:
+        pred = "Trash"
+        return pred
+
+    # Sorts classification of waste type into disposal categories
+    if pred == "paper" or pred == "cardboard":
+        pred = "Paper"
+    elif pred == "glass" or pred == "metal":
+        pred = "Glass/Metal"
+    elif pred == "plastic":
+        pred = "Plastic"
+    else:
+        pred = "Trash"
+
+    return pred
+
+
+# Captures webcam output, converts to be displayed on UI
+def take_shot():
+    __, image = webcam.read()
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    image = Image.fromarray(image)
+    image = ImageTk.PhotoImage(image)
+    return image
+
+
+# IGNORE -- For testing purposes
+def stream_capture(webcam, learn):
+
+    while True:
+        # Capture frame-by-frame
+        ret, image = webcam.read()
+
+        # Display the resulting frame
+        cv.imshow('Feed', image)
+        input = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        category = prediction(learn, input)
+
+        # Exit Standby
+        if cv.waitKey(1) & 0xFF == ord('q'):
+            cv.destroyWindow('Feed')
+            webcam.release()
+            break
 
 
 # TODO -- Fix timer so blink is always 500ms
@@ -40,7 +131,7 @@ def blink(data, idx):
 
 
 # Determines if click is in the buttons' boundaries
-def check_Cursor(x, y, data):
+def check_cursor(x, y, data):
 
     height = data.height * data.bcell_height
 
@@ -55,20 +146,21 @@ def check_Cursor(x, y, data):
             data.button_fill[button] = "red"
 
 
-# Retrieves image from webcam with OpenCV
-def retrieve_image(data):
-    # TODO -- Replace with call to webcam capture
-    image = capture.take_shot(data.webcam)
-    image = Image.fromarray(image)
-    image = ImageTk.PhotoImage(image)
-    print("Success!")
+def main():
 
-    return image
+    # Loads image classifying model and retrieves webcam capture
+    global learn, webcam, num_classes, labels
+    classes = ["Paper/Cardboard", "Plastic", "Glass/Metal", "Trash"]
+
+    learn = load_model()
+    webcam = connect_capture_device()
+    labels = classes
+    num_classes = len(classes)
+    run(600, 300)
 
 
 def init(data):
     # load data.xyz as appropriate
-    data.webcam, data.learn = capture.main()    # Initialize capture and prediction
     data.timer = 0
     data.num_buttons = num_classes
     data.bcell_width = data.width // data.num_buttons
@@ -84,14 +176,14 @@ def init(data):
 
 def mousePressed(event, data):
     # use event.x and event.y
-    check_Cursor(event.x, event.y, data)
+    check_cursor(event.x, event.y, data)
     pass
 
 
 def keyPressed(event, data):
     # use event.char and event.keysym
     if event.keysym == "e":
-        data.image = retrieve_image(data)
+        data.image = take_shot()
     pass
 
 
@@ -188,6 +280,7 @@ def run(width=300, height=300):
     print("bye!")
 
 
-start_UI(["Paper/Cardboard", "Plastic", "Glass/Metal", "Trash"])
+if __name__ == '__main__':
+    main()
 
 

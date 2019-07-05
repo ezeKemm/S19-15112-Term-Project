@@ -19,9 +19,10 @@ from fastai.vision.image import pil2tensor, Image
 def load_model():
 
     # Retrieves trained model from SortingTraining Directory
-    path = os.getcwd() + "/data"
+    # path = os.getcwd() + "/data"
 
-    # path = "/Users/zeke/PycharmProjects/15112_TP_S19/SortingTraining/data"
+    path = "/Users/zeke/PycharmProjects/15112_TP_S19/SortingTraining/data"
+    tfms = get_transforms(do_flip=False)
     data = ImageDataBunch.from_folder(path, train="train", valid="valid")
 
     # Loads trained model, exports for inference, and loads inference model
