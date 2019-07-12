@@ -1,8 +1,10 @@
 from __future__ import print_function, division
 
 from tkinter import *
+from tkinter import messagebox
 from PIL import Image, ImageTk
-import time
+
+import serial
 import cv2 as cv
 from pathlib import Path
 import os
@@ -30,6 +32,7 @@ def load_model():
 
     # Retrieves trained model from SortingTraining Directory
     # Currently an error occurs if this path isn't explicitly given
+    abspath = os.path.abspath("./SortingTraining/data")
     path = "/Users/zeke/PycharmProjects/15112_TP_S19/SortingTraining/data"
     data = ImageDataBunch.from_folder(path, train="train", valid="valid")
 
@@ -53,22 +56,19 @@ def connect_capture_device():
             # Sets to 720p resolution
             webcam.set(3, 1280)
             webcam.set(4, 1080)
+            return webcam
         except:
             print("Failed to connect to webcam, retrying...")
             continue
-        else:
-            break
     else:
         print("Failed to successfully connect to camera after 10 tries")
         quit()
 
-    return webcam
 
-
-# Creates directory to store data
+# Creates directory to store data history on results
 def load_folder():
     path = "./history"
-    access = 0o755
+
     try:
         if not os.path.exists(path):
             os.makedirs(path)
@@ -79,16 +79,15 @@ def load_folder():
 
 # Starts program, loading model and capture device
 def main():
-    global learn, webcam, classes, hist_path
+    global ser, learn, webcam, classes, hist_path
 
-    classes = ["Paper/Cardboard", "Plastic", "Glass/Metal", "Trash"]
-    # Loads image classifying model and retrieves webcam capture
+    classes = ["Paper", "Cardboard", "Plastic", "Glass", "Metal", "Trash"]
+    port = '/dev/cu.usbmodem14301'   # Must determine port Arduino is connected (MacOS port)
+    ser = serial.Serial(port, 9600)
     learn = load_model()
     webcam = connect_capture_device()
     hist_path = load_folder()
 
-    print(hist_path)
-    print("Model loaded! Camera connected!")
     run(500, 400)
 
 
@@ -101,31 +100,20 @@ def prediction(input, data):
 
     # Forward propagates through nn to classify image
     pred, idx, probs = learn.predict(Image(pil2tensor(input, np.float32).div_(255)))
-    print(pred, probs, float(probs[idx]))
+    print(str(pred).capitalize(), float(probs[idx]), probs)
 
     # If accurate prediction can't be made, chooses trash
     if max(probs) < 0.5:
-        data.predic = "Trash"
-        data.confid = "0"
+        data.pred = "Trash"
+        data.conf = "0"
     else:
-        data.predic = str(pred)
-        data.confid = round(float(probs[idx]), 2)
+        data.pred = str(pred).capitalize()
+        data.conf = round(float(probs[idx]), 2)
 
-    # Sorts classification of waste type into bin categories
-    if str(pred) == "paper" or str(pred) == "cardboard":
-        bin = 0
-    elif str(pred) == "plastic":
-        bin = 1
-    elif str(pred) == "glass" or str(pred) == "metal":
-        bin = 2
-    else:
-        bin = 3
-
-    data.bin = classes[bin]
-    data.button_fill[bin] = "light green"   # Highlights chosen bin category
+    data.buttons[data.pred]["num_predicted"] += 1   # Updates counter
 
 
-# Captures webcam output, converts to be displayed on UI
+# Captures webcam output, converts to be displayed on GUI
 def take_shot(data):
     data.counter += 1
     __, image = webcam.read()
@@ -144,183 +132,207 @@ def take_shot(data):
     return image
 
 
-# IGNORE -- For testing purposes
-def stream_capture(webcam, learn):
-
-    while True:
-        # Capture frame-by-frame
-        ret, image = webcam.read()
-
-        # Display the resulting frame
-        cv.imshow('Feed', image)
-        input = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-        category = prediction(learn, input)
-
-        # Exit Standby
-        if cv.waitKey(1) & 0xFF == ord('q'):
-            cv.destroyWindow('Feed')
-            webcam.release()
-            break
-
-
-# IGNORE -- Not operational
-# TODO -- Fix timer so blink is always 500ms
-def blink(data, idx):
-    start = time.time()
-    data.button_fill[idx] = "red"
-    seconds = 3
-    data.timer = 0
-    while seconds > 0:
-        timerFired(data)
-        print(data.timer)
-        if data.timer % 10 == 0:
-           seconds -= 1
-
-    data.button_fill[idx] = "white"
-    end = time.time()
-    totTime = end - start
-    print(f"Time: {totTime}")
-    return
-
-
-def error_counter(correct, data):
+# Updates log used for tracking program results
+def update_log(correct, data):
     log = open("./history/prediction_log.txt", "a")
+    prediction_result = ""
 
-    if data.bin == data.button_labels[correct]:  # ML prediction correct
-        data.button_fill[correct] = "blue"
-        result = True
-        prediction_result = f"Predicted {data.predic} in {data.bin} ... Correct: True"
-    elif data.bin != data.button_labels[correct]:  # ML prediction incorrect
-        data.button_fill[correct] = "red"
-        result = False
-        correct = data.button_labels[correct]
-        prediction_result = f"Predicted {data.predic} in {data.bin} ... Correct: False -> {correct}"
+    if correct == data.pred:
+        prediction_result = f"Predicted {data.pred}...Correct: True"
+    elif correct != data.pred:
+        prediction_result = f"Predicted {data.pred}...Correct: False -> {correct}"
 
     entry = f"#{data.counter} -- capture{data.counter}.jpeg -- " + prediction_result + "\n"
     print(entry)
-
 
     log.write(entry)
     log.close()
 
 
+# Updates clicked_status
+def update_status(data, button):
+    d = data.buttons
+    for b in data.buttons:
+        if b != button:
+            d[b]["clicked_status"] = False
+        else:
+            d[button]["clicked_status"] = True
+
+
+# Sends signal to arduino to sort item based off material
+def sort(item):
+
+    if item == "Paper" or item == "Cardboard":
+        ser.write(0)
+        print(str(ser.readline().decode()))
+    elif item == "Plastic":
+        ser.write(1)
+        print(str(ser.readline().decode()))
+    elif item == "Glass" or item == "Metal":
+        ser.write(2)
+        print(str(ser.readline().decode()))
+    elif item == "Trash":
+        ser.write(3)
+        print(str(ser.readline().decode()))
+
+
 # Determines if click is in the buttons' boundaries
 def check_cursor(x, y, data):
+    c, d = "coord", data.buttons    # Aliasing for shorthand
 
-    height = data.height * data.bcell_height
+    for button in data.buttons:
+        x1, y1, x2, y2 = d[button][c][0], d[button][c][1], d[button][c][2], d[button][c][3]
 
-    for button in range(data.num_buttons):
-        start_x = button * data.bcell_width + data.x_margin
-        end_x = button * data.bcell_width + data.bcell_width - data.x_margin
-        start_y = data.height - height + data.y_margin
-        end_y = data.height - data.y_margin
+        if x1 <= x <= x2 and y1 <= y <= y2 and not data.pred_check:
 
-        if start_x <= x <= end_x and start_y <= y <= end_y:
-            error_counter(button, data)
-            # print(f"Click detected at Button {button+1}") # DEBUG
+            # Highlights based on prediction verification
+            if button == data.pred:    # Prediction correct
+                d[button]["button_color"] = "DeepSkyBlue2"
+                d[button]["txt_color"] = "white"
+                d[data.pred]["num_correct"] += 1
+                update_log(button, data)
 
+            elif button != data.pred:    # Prediction incorrect
+                d[button]["button_color"] = "red"
+                update_log(button, data)
+
+            update_status(data, button)
+            data.pred_check = True    # Changes state after verification to allow capture
+            sort(button)
+
+        # Error message
+        elif x1 <= x <= x2 and y1 <= y <= y2 and data.pred_check:
+            messagebox.showerror("Invalid Action",
+                                 """Prediction already verified, please create a new capture"""
+                                 )
+
+
+# This generates the dictionary used to store all values for the
+def generate_buttons(labels):
+    dictn = {}
+    default_button_color = "white"
+    for button in labels:
+        dictn[button] = {
+            "name": button,
+            "coord": [],
+            "txt_coord": (0, 0),
+            "button_color": default_button_color,
+            "txt_color": "black",
+            "clicked_status": False,
+            "num_predicted": 0,
+            "num_correct": 0
+        }
+
+    return dictn
+
+
+def draw_buttons(data):
+    # Draw Buttons
+    i = 0
+    for button in data.buttons:
+        start_x = i * data.bwidth + data.margin
+        end_x = i * data.bwidth + data.bwidth - data.margin
+        start_y = data.bheight + data.margin * 2
+        end_y = data.height - data.margin * 2
+
+        # Ensures margins are even on panel ends
+        if i == 0:
+            start_x = i * data.bwidth + (data.margin * 2)
+        elif i == 3:
+            end_x = i * data.bwidth + data.bwidth - (data.margin * 2)
+
+        data.buttons[button]["coord"] = [start_x, start_y, end_x, end_y]
+
+        # Adds text labels to buttons
+        txt_x = (end_x - start_x) // 2 + start_x
+        txt_y = (end_y - start_y) // 2 + start_y
+
+        data.buttons[button]["txt_coord"] = (txt_x, txt_y)
+
+        i += 1
+
+
+# Refreshes all buttons after new image capture
+def refresh_buttons(data):
+    for b in data.buttons:
+        data.buttons[b]["button_color"] = "white"
+        data.buttons[b]["txt_color"] = "black"
+
+        if b == data.pred:
+            data.buttons[b]["button_color"] = "green"
 
 
 def init(data):
 
-    # For the buttons
-    data.num_buttons = len(classes)
-    data.bcell_width = data.width // data.num_buttons
-    data.bcell_height = 0.20    # represented as a fraction of total height
-    data.x_margin = 5
-    data.y_margin = 10
-    data.button_fill = [ "white" for i in range(data.num_buttons) ]
-    data.button_labels = classes
+    # Parameters for the buttons
+    data.buttons = generate_buttons(classes)
+    data.bwidth = data.width // len(data.buttons)
+    data.bheight = data.height - data.height * 0.2
+    data.margin = 5
 
-    data.counter = -1
-    data.image = take_shot(data)
-    data.predic = None
-    data.confid = 0
-    data.bin = None
+    data.image = None
+    data.pred = "Glass"
+    data.conf = 0
 
-    # No given prediction so no selection needed -- Slightly broken
-    data.clicked = True
-    data.checked = True
+    data.pred_check = True  # State determines valid actions
+    draw_buttons(data)  # Determines coordinates of all buttons
 
 
-# TODO -- Add user prompts for else condition
 def mousePressed(event, data):
     # use event.x and event.y
-    if not data.clicked:
-        data.clicked = True
-        check_cursor(event.x, event.y, data)
+    check_cursor(event.x, event.y, data)
 
 
 def keyPressed(event, data):
     # use event.char and event.keysym
     # Captures image from device on press
-    if data.checked:
-        if event.keysym == "e":
-            data.clicked = False
-            data.image = take_shot(data)
+    if data.pred_check and event.keysym == "e":
+        data.pred_check = False
+        data.image = take_shot(data)
+        refresh_buttons(data)
+
+    elif event.keysym == "e" and not data.pred_check:
+        messagebox.showerror("Invalid Action",
+                             """Must verify current prediction before taking new capture"""
+                             )
 
 
 def timerFired(data):
-    # Reverts fill back -- Serves as click animation
-    for button in range(data.num_buttons):
-        if data.button_fill[button] == "red":
-            data.button_fill[button] = "white"
-        elif data.button_fill[button] == "blue":
-            data.button_fill[button] = "light green"
-
-
-def draw_buttons(canvas, data):
-    height = data.height * data.bcell_height
-
-    # Draw Buttons
-    for button in range(data.num_buttons):
-        start_x = button * data.bcell_width + data.x_margin
-        end_x = button * data.bcell_width + data.bcell_width - data.x_margin
-        start_y = data.height - height + data.y_margin
-        end_y = data.height - data.y_margin
-
-        # TODO -- Correct that clicking out of bounds still works
-        if button == 0:
-            start_x = button * data.bcell_width + (data.x_margin * 2)
-        elif button == 3:
-            end_x = button * data.bcell_width + data.bcell_width - (data.x_margin * 2)
-
-        canvas.create_rectangle(start_x, start_y, end_x, end_y,
-                                fill=data.button_fill[button])
-
-        # Adds text labels to buttons
-        txt_x = (end_x - start_x) // 2 + start_x
-        txt_y = (height // 2) + (data.height - height) - data.y_margin  # Sloppy
-        # TODO -- Try to find simpler calculation
-        canvas.create_text(txt_x, txt_y,
-                           text=data.button_labels[button],
-                           anchor=N,
-                           font=f"Sans {int(data.width * .025)} bold")
+    pass
 
 
 def redrawAll(canvas, data):
 
     # Draw panel background
-    height = data.height * data.bcell_height
-    canvas.create_rectangle(0, 0, data.width, data.height - height, fill="gray")
-    canvas.create_rectangle(0, data.height - height, data.width, data.height, fill="black")
+    canvas.create_rectangle(0, 0, data.width, data.bheight, fill="black")   # Upper panel
+    canvas.create_rectangle(0, data.bheight, data.width, data.height, fill="gray")  # Lower/Button panel
 
-    draw_buttons(canvas, data)
+    # Draws buttons with text labels
+    for b in data.buttons:
+        c, d, t = "coord", data.buttons, "txt_coord"
+
+        canvas.create_rectangle(d[b][c][0], d[b][c][1], d[b][c][2], d[b][c][3],
+                                fill=d[b]["button_color"])
+        canvas.create_text(d[b][t][0], d[b][t][1],
+                           text=b,
+                           fill=d[b]["txt_color"],
+                           anchor=CENTER,
+                           font=f"Sans {int(data.bwidth * .1)} bold")
 
     # Displays images from capture device
     im_height, im_width = data.image.height(), data.image.width()
     im_x = (data.width // 2) - (im_width // 2)
-    im_y = ((data.height - height) // 2) - (im_height // 2)
+    im_y = (data.bheight // 2) - (im_height // 2)
     if data.image is not None:
         canvas.create_image(im_x, im_y, anchor=NW, image=data.image)
 
     # Prediction dialogue
     margin = 30
-    canvas.create_text(data.width // 2, data.height - height - margin,
+    canvas.create_text(data.width // 2, data.bheight - (margin * 2),
                        anchor=CENTER,
                        font=f"Sans {int(data.width * .05)} bold",
-                       fill="red",
-                       text=f"{data.predic} at {data.confid*100}% confidence.")
+                       fill="white",
+                       text=f"{data.pred} at {data.conf*100}% confidence.")
 
 
 ####################################
@@ -349,12 +361,13 @@ def run(width=300, height=300):
         redrawAllWrapper(canvas, data)
         # pause, then call timerFired again
         canvas.after(data.timerDelay, timerFiredWrapper, canvas, data)
+
     # Set up data and call init
     class Struct(object): pass
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 500   # milliseconds
+    data.timerDelay = 100   # milliseconds
     root = Tk()
     root.resizable(width=False, height=False)   # prevents resizing window
     init(data)
@@ -370,10 +383,6 @@ def run(width=300, height=300):
     timerFiredWrapper(canvas, data)
     # and launch the app
     root.mainloop()  # blocks until window is closed
-
-    count = open("./history/counter.txt", "w")
-    count.write(str(data.counter))
-    count.close()
 
     print("bye!")
 
