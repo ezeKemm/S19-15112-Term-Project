@@ -11,7 +11,7 @@ with a final Trash category for all materials not categorized as any of the 5 cl
 This material identification is completed using transfer learning to distinguish visual characteristics of 
 the material characteristics for image classification. 
 
-------- HOW TO -------
+# HOW TO
 
 -- TRAINING
 To begin, a model must be trained on the provided image dataset before making predictions. 
@@ -46,7 +46,7 @@ simply remove the serial.Serial() command under main() and the sort() command un
 This prevents establishing a serial connection and attempting to control the servos after verification. 
 
 
-REQUIRED MODULES:
+# Required Modules
 - fastAI
 - pandas
 - numpy
