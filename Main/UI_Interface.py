@@ -6,7 +6,6 @@ from PIL import Image, ImageTk
 
 import serial
 import cv2 as cv
-from pathlib import Path
 import os
 
 # This explicitly sets mpl back end as TkAgg
@@ -31,16 +30,17 @@ from fastai.vision.image import pil2tensor, Image
 def load_model():
 
     # Retrieves trained model from SortingTraining Directory
-    # Currently an error occurs if this path isn't explicitly given
+    # To retrieve absolute path, moves to parent directory and retrieves correct path
+    os.chdir('..')
     abspath = os.path.abspath("./SortingTraining/data")
-    path = "/Users/zeke/PycharmProjects/15112_TP_S19/SortingTraining/data"
-    data = ImageDataBunch.from_folder(path, train="train", valid="valid")
+    data = ImageDataBunch.from_folder(abspath, train="train", valid="valid")
 
     # Loads trained model, exports for inference, and loads inference model
     learn = cnn_learner(data, models.resnet34).load('recyc_model')
     learn.export()
-    learn = load_learner(path)
+    learn = load_learner(abspath)
 
+    os.chdir('./Main')  # Resets cwd to Main
     return learn
 
 
@@ -118,8 +118,8 @@ def take_shot(data):
     data.counter += 1
     __, image = webcam.read()
     prediction(image, data)
-    if data.counter > 0:    # Save image
-        cv.imwrite(f"./history/capture{data.counter}.jpeg", image)
+    # Save image
+    cv.imwrite(f"./history/capture{data.counter}.jpeg", image)
 
     # Conversions from OpenCV to Tkinter format using PIL, resized for UI
     resize_perc = 0.30
@@ -161,18 +161,22 @@ def update_status(data, button):
 
 # Sends signal to arduino to sort item based off material
 def sort(item):
-
+    print(item)
     if item == "Paper" or item == "Cardboard":
-        ser.write(0)
+        print("Sending to paper/cardboard")
+        ser.write("0".encode())
         print(str(ser.readline().decode()))
     elif item == "Plastic":
-        ser.write(1)
+        print("sending to plastic")
+        ser.write("1".encode())
         print(str(ser.readline().decode()))
     elif item == "Glass" or item == "Metal":
-        ser.write(2)
+        print('sending to glass/metal')
+        ser.write("2".encode())
         print(str(ser.readline().decode()))
     elif item == "Trash":
-        ser.write(3)
+        print('sending to trash')
+        ser.write("3".encode())
         print(str(ser.readline().decode()))
 
 
@@ -270,6 +274,7 @@ def init(data):
     data.bheight = data.height - data.height * 0.2
     data.margin = 5
 
+    data.counter = 0
     data.image = None
     data.pred = "Glass"
     data.conf = 0
@@ -320,10 +325,10 @@ def redrawAll(canvas, data):
                            font=f"Sans {int(data.bwidth * .1)} bold")
 
     # Displays images from capture device
-    im_height, im_width = data.image.height(), data.image.width()
-    im_x = (data.width // 2) - (im_width // 2)
-    im_y = (data.bheight // 2) - (im_height // 2)
     if data.image is not None:
+        im_height, im_width = data.image.height(), data.image.width()
+        im_x = (data.width // 2) - (im_width // 2)
+        im_y = (data.bheight // 2) - (im_height // 2)
         canvas.create_image(im_x, im_y, anchor=NW, image=data.image)
 
     # Prediction dialogue
